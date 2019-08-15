@@ -38,7 +38,7 @@ class MainCommands(commands.Cog):
             reply.add_field(name="Skills <name>", value="\t Returns that hero's skillset.", inline=False)
             reply.add_field(name="Artifact <name>", value="\t Returns information about that artifact.", inline=False)
             reply.add_field(name="Item <name>", value="\t Returns information about that item.", inline=False)
-            await self.bot.say(embed=reply)
+            await ctx.message.channel.send(embed=reply)
 
         elif mes.lower() == "latest":
             get_latest = e7API.get_latest()
@@ -61,7 +61,7 @@ class MainCommands(commands.Cog):
                                             
                                                                                                "Exclusive: {} \n".format(info["rarity"], "".join(exclusive).capitalize()), inline=False)
             reply.set_footer(text=self.bot.user.name, icon_url=self.bot.user.avatar_url)
-            await self.bot.say(embed=reply)
+            await ctx.message.channel.send(embed=reply)
             pass
 
         elif mes.lower().startswith("hero ") or mes.lower().startswith("char "):
@@ -70,7 +70,7 @@ class MainCommands(commands.Cog):
             try:
                 get_hero = e7API.get_info(name, "hero")["results"][0]
             except KeyError:
-                await self.bot.say(embed=HandleError.HandleType(self))
+                await ctx.message.channel.send(embed=HandleError.HandleType(self))
                 return
 
             reply = discord.Embed(title="{}".format(get_hero["name"]),
@@ -86,7 +86,7 @@ class MainCommands(commands.Cog):
                                                                                                                     get_hero["stats"]["lv1BaseStarNoAwaken"]["chd"], get_hero["stats"]["lv1BaseStarNoAwaken"]["eff"], get_hero["stats"]["lv1BaseStarNoAwaken"]["efr"], get_hero["stats"]["lv1BaseStarNoAwaken"]["dac"]),inline=False)
 
             reply.set_footer(text=self.bot.user.name, icon_url=self.bot.user.avatar_url)
-            await self.bot.say(embed=reply)
+            await ctx.message.channel.send(embed=reply)
 
         elif mes.lower().startswith("skills ") or mes.lower().startswith("skill ") or mes.lower().startswith("ability "):
             name = mes.lower().split(" ", maxsplit=1)[1]
@@ -94,7 +94,7 @@ class MainCommands(commands.Cog):
             try:
                 get_hero = e7API.get_info(name, "hero")["results"][0]
             except:
-                await self.bot.say(embed=HandleError.HandleType(self))
+                await ctx.message.channel.send(embed=HandleError.HandleType(self))
                 return
 
             reply = discord.Embed(title="{}'s Skills".format(get_hero["name"]),
@@ -111,7 +111,7 @@ class MainCommands(commands.Cog):
             reply.set_thumbnail(url="https://assets.epicsevendb.com/{}/{}/icon.png".format("hero", name))
             reply.set_footer(text=self.bot.user.name, icon_url=self.bot.user.avatar_url)
 
-            await self.bot.say(embed=reply)
+            await ctx.message.channel.send(embed=reply)
 
         elif mes.lower().startswith("artifact ") or mes.lower().startswith("arti "):
             name = mes.lower().split(" ", maxsplit=1)[1]
@@ -120,7 +120,7 @@ class MainCommands(commands.Cog):
             try:
                 get_artifact = e7API.get_info(name, "artifact")["results"][0]
             except:
-                await self.bot.say(embed=HandleError.HandleType(self))
+                await ctx.message.channel.send(embed=HandleError.HandleType(self))
                 return
 
             lore = get_artifact["loreDescription"]
@@ -136,7 +136,7 @@ class MainCommands(commands.Cog):
             reply.add_field(name="Stats (Level 1):", value="ATK: {}\n HP: {}".format(get_artifact["stats"]["base"]["atk"], get_artifact["stats"]["base"]["hp"]))
             reply.add_field(name="Stats (Max):", value="ATK: {}\n HP: {}".format(get_artifact["stats"]["max"]["atk"], get_artifact["stats"]["max"]["hp"]))
             reply.set_footer(text=self.bot.user.name, icon_url=self.bot.user.avatar_url)
-            await self.bot.say(embed=reply)
+            await ctx.message.channel.send(embed=reply)
             pass
 
         elif mes.lower().startswith("item "):
@@ -146,7 +146,7 @@ class MainCommands(commands.Cog):
             try:
                 get_item = e7API.get_info(name, "item")["results"][0]
             except:
-                await self.bot.say(embed=HandleError.HandleType(self))
+                await ctx.message.channel.send(embed=HandleError.HandleType(self))
                 return
 
             shopItems = "\u200b"
@@ -171,7 +171,7 @@ class MainCommands(commands.Cog):
             reply.add_field(name="AP Shops:", value=shopItems)
             reply.set_footer(text=self.bot.user.name, icon_url=self.bot.user.avatar_url)
 
-            await self.bot.say(embed=reply)
+            await ctx.message.channel.send(embed=reply)
 
     #  Soccer Spirits
     @commands.command(pass_context=True, aliases=["soccerspirits"])
@@ -181,7 +181,7 @@ class MainCommands(commands.Cog):
                                   description="Please use any of these commands followed by '.ss' to search.\n **For an example:** `;ss tw Miri: Miri is wondering`",
                                   color=0x03a1fc)
             reply.add_field(name="Tw <player>: <sentence>", value="Returns the teamwork of the given player. The full teamwork sentence does not have to be entered.")
-            await self.bot.say(embed=reply)
+            await ctx.message.channel.send(embed=reply)
         if mes.lower().startswith("tw ") or mes.lower().startswith("teamwork "):
             try:
                 content = mes.lower().split(" ", maxsplit=1)[1]
@@ -195,14 +195,14 @@ class MainCommands(commands.Cog):
                                       color=0x5cffbe)
                 reply.set_footer(text=self.bot.user.name, icon_url=self.bot.user.avatar_url)
 
-                await self.bot.say(embed=reply)
+                await ctx.message.channel.send(embed=reply)
             except:
                 reply = discord.Embed(title="Error",
                                       description="Please use the proper format\n\nExample: `;ss tw Miri: Miri is wondering`",
                                       color=0x5cffbe)
                 reply.set_footer(text=self.bot.user.name, icon_url=self.bot.user.avatar_url)
 
-                await self.bot.say(embed=reply)
+                await ctx.message.channel.send(embed=reply)
 
 
 def setup(bot):
