@@ -6,7 +6,7 @@ class MainCommands(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @bot.command(pass_context=True, aliases=["h", "bangwo", "tasukete"])
+    @commands.command(pass_context=True, aliases=["h", "bangwo", "tasukete"])
     async def help(self, ctx):
         embed = discord.Embed(description="To use me, please use the ';' prefix followed by any of the commands listed below.\n"
                                           ""
