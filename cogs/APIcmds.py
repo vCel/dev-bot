@@ -1,0 +1,209 @@
+import discord
+import json
+from discord.ext import commands
+import add_ons.epic7API as e7API
+import add_ons.ss_CMDS as ssCMDS
+
+colours = {
+    "Fire": 0xff3535,
+    "Earth": 0x4ee031,
+    "Ice": 0x38cef7,
+    "Dark": 0x815bff,
+    "Light": 0xffff30
+}
+
+
+class HandleError:
+    def HandleType(self):
+        reply = discord.Embed(title="No results.",
+                              description="Please ensure that the name you have entered is correct.",
+                              color=0xff2bb1)
+        reply.set_footer(text=self.bot.user.name, icon_url=self.bot.user.avatar_url)
+        return reply
+
+
+class MainCommands:
+    def __init__(self, bot):
+        self.bot = bot
+
+    #  Epic Seven
+    @commands.command(pass_context=True, aliases=["epic7"])
+    async def e7(self, ctx, *, mes=""):
+        if mes == "":
+            reply = discord.Embed(title="Epic Seven Commands:",
+                              description="Please use any of these commands followed by ';e7' to search.\n **For an example:** `.e7 Hero Angelica`",
+                              color=0x03a1fc)
+            reply.add_field(name="Latest", value="\t Returns the latest heroes and artifacts.", inline=False)
+            reply.add_field(name="Hero <name>", value="\t Returns information about that hero.", inline=False)
+            reply.add_field(name="Skills <name>", value="\t Returns that hero's skillset.", inline=False)
+            reply.add_field(name="Artifact <name>", value="\t Returns information about that artifact.", inline=False)
+            reply.add_field(name="Item <name>", value="\t Returns information about that item.", inline=False)
+            await self.bot.say(embed=reply)
+
+        elif mes.lower() == "latest":
+            get_latest = e7API.get_latest()
+            reply = discord.Embed(title="Latest Epic Seven Heroes and Artifacts",
+                                  description=" ",
+                                  color=0x03a1fc)
+            for keytype in get_latest["results"][0].keys():
+                for info in get_latest["results"][0][keytype]:
+                    #  info = info.replace("-", " ")  # replaces the blank space with a "-"
+                    if keytype == "hero":
+                        reply.add_field(name="[{}] {}".format("Hero", info["name"]), value="Rarity: {}★\n"
+                                                                                            "Class: {} \n"
+                                                                                            "Element: {} \n"
+                                                                                            "Zodiac: {}".format(info["rarity"], info["classType"].capitalize(), info["element"].capitalize(), info["zodiac"].capitalize()), inline=False)
+                    elif keytype == "artifact":
+                        exclusive = info["exclusive"]
+                        if exclusive == []:
+                            exclusive = ["None"]
+                        reply.add_field(name="[{}] {}".format("Artifact", info["name"]), value="Rarity: {}★\n"
+                                            
+                                                                                               "Exclusive: {} \n".format(info["rarity"], "".join(exclusive).capitalize()), inline=False)
+            reply.set_footer(text=self.bot.user.name, icon_url=self.bot.user.avatar_url)
+            await self.bot.say(embed=reply)
+            pass
+
+        elif mes.lower().startswith("hero ") or mes.lower().startswith("char "):
+            name = mes.lower().split(" ", maxsplit=1)[1]
+            name = name.replace(" ", "-")  # replaces the blank space with a "-"
+            try:
+                get_hero = e7API.get_info(name, "hero")["results"][0]
+            except KeyError:
+                await self.bot.say(embed=HandleError.HandleType(self))
+                return
+
+            reply = discord.Embed(title="{}".format(get_hero["name"]),
+                                  description="> {}★ | {} | {} | {}".format(get_hero["rarity"], get_hero["classType"].capitalize(), get_hero["element"].capitalize(), get_hero["zodiac"].capitalize()),
+                                  color=colours[get_hero["element"].capitalize()])
+            reply.set_thumbnail(url="https://assets.epicsevendb.com/{}/{}/icon.png".format("hero", name))
+            reply.add_field(name="Story:", value=get_hero["background"], inline=False)
+            reply.add_field(name="Stats (Level 1):", value="```\n"
+                                                           "| HP: {} | ATK: {} | SPD: {} |\t\t\n"
+                                                           "| DEF: {} | CHC: {} | CHD: {} |\t\t\n"
+                                                           "| EFF: {} | EFR: {} | DAC: {} |\t\t\n```".format(get_hero["stats"]["lv1BaseStarNoAwaken"]["cp"], get_hero["stats"]["lv1BaseStarNoAwaken"]["atk"], get_hero["stats"]["lv1BaseStarNoAwaken"]["hp"],
+                                                                                                                    get_hero["stats"]["lv1BaseStarNoAwaken"]["spd"], get_hero["stats"]["lv1BaseStarNoAwaken"]["def"], get_hero["stats"]["lv1BaseStarNoAwaken"]["chc"],
+                                                                                                                    get_hero["stats"]["lv1BaseStarNoAwaken"]["chd"], get_hero["stats"]["lv1BaseStarNoAwaken"]["eff"], get_hero["stats"]["lv1BaseStarNoAwaken"]["efr"], get_hero["stats"]["lv1BaseStarNoAwaken"]["dac"]),inline=False)
+
+            reply.set_footer(text=self.bot.user.name, icon_url=self.bot.user.avatar_url)
+            await self.bot.say(embed=reply)
+
+        elif mes.lower().startswith("skills ") or mes.lower().startswith("skill ") or mes.lower().startswith("ability "):
+            name = mes.lower().split(" ", maxsplit=1)[1]
+            name = name.replace(" ", "-")  # replaces the blank space with a "-"
+            try:
+                get_hero = e7API.get_info(name, "hero")["results"][0]
+            except:
+                await self.bot.say(embed=HandleError.HandleType(self))
+                return
+
+            reply = discord.Embed(title="{}'s Skills".format(get_hero["name"]),
+                                  description=" ",
+                                  color=colours[get_hero["element"].capitalize()])
+            for skill in get_hero["skills"]:
+                skilltype = "Active"
+                if skill["isPassive"]:
+                    skilltype = "Passive"
+                if skill["soulBurn"] > 0:
+                    reply.add_field(name="({}) {}".format(skilltype, skill["name"]), value="> Cooldown: {} turns  \n {} \n```\nSoul Burn: {}\nEffect: {}```".format(skill["cooldown"], skill["description"], skill["soulBurn"], skill["soulBurnEffect"]))
+                else:
+                    reply.add_field(name="({}) {}".format(skilltype, skill["name"]), value="> Cooldown: {} turns  \n {}".format(skill["cooldown"], skill["description"]))
+            reply.set_thumbnail(url="https://assets.epicsevendb.com/{}/{}/icon.png".format("hero", name))
+            reply.set_footer(text=self.bot.user.name, icon_url=self.bot.user.avatar_url)
+
+            await self.bot.say(embed=reply)
+
+        elif mes.lower().startswith("artifact ") or mes.lower().startswith("arti "):
+            name = mes.lower().split(" ", maxsplit=1)[1]
+            name = name.replace(" ", "-")  # replaces the blank space with a "-"
+
+            try:
+                get_artifact = e7API.get_info(name, "artifact")["results"][0]
+            except:
+                await self.bot.say(embed=HandleError.HandleType(self))
+                return
+
+            lore = get_artifact["loreDescription"]
+            lore_temp = ""
+            for line in lore:
+                lore_temp = lore_temp + line + "\n"
+            reply = discord.Embed(title=get_artifact["name"],
+                                  description="> {}★ | {} Exclusive".format(get_artifact["rarity"], get_artifact["exclusive"][0].capitalize()),
+                                  color=0xff7300)
+            reply.set_thumbnail(url="https://assets.epicsevendb.com/{}/{}/icon.png".format("artifact", name))
+            reply.add_field(name="Lore:", value=lore_temp)
+            reply.add_field(name="Skills:", value="**Level 1:** {}\n **Maxed:** {}".format(get_artifact["skillDescription"]["base"], get_artifact["skillDescription"]["max"]))
+            reply.add_field(name="Stats (Level 1):", value="ATK: {}\n HP: {}".format(get_artifact["stats"]["base"]["atk"], get_artifact["stats"]["base"]["hp"]))
+            reply.add_field(name="Stats (Max):", value="ATK: {}\n HP: {}".format(get_artifact["stats"]["max"]["atk"], get_artifact["stats"]["max"]["hp"]))
+            reply.set_footer(text=self.bot.user.name, icon_url=self.bot.user.avatar_url)
+            await self.bot.say(embed=reply)
+            pass
+
+        elif mes.lower().startswith("item "):
+            name = mes.lower().split(" ", maxsplit=1)[1]
+            name = name.replace(" ", "-")  # replaces the blank space with a "-"
+
+            try:
+                get_item = e7API.get_info(name, "item")["results"][0]
+            except:
+                await self.bot.say(embed=HandleError.HandleType(self))
+                return
+
+            shopItems = "\u200b"
+            droplocations = "\u200b"
+
+            if "apShops" in get_item:
+                shopItems = ""
+                for shop in get_item["apShops"]:
+                    shopItems += "**{}:** ${} | x{}\n".format(shop["chapter"], shop["cost"], shop["quantity"])
+
+            if get_item["locations"] != []:
+                droplocations = ""
+                for area in get_item["locations"]:
+                    droplocations += "**Node:** {} \n**Name: **{} \n **Mob count:** {}\n\n".format(area["node"], area["name"], area["mobcount"])
+
+            reply = discord.Embed(title=get_item["name"],
+                                  description=get_item["type"].capitalize(),
+                                  color=0x6a38ff)
+            reply.set_thumbnail(url="https://assets.epicsevendb.com/{}/{}.png".format("item", name))
+            reply.add_field(name="Description:", value=get_item["description"])
+            reply.add_field(name="Locations:", value=droplocations)
+            reply.add_field(name="AP Shops:", value=shopItems)
+            reply.set_footer(text=self.bot.user.name, icon_url=self.bot.user.avatar_url)
+
+            await self.bot.say(embed=reply)
+
+    #  Soccer Spirits
+    @commands.command(pass_context=True, aliases=["soccerspirits"])
+    async def ss(self, ctx, *, mes=""):
+        if mes == "":
+            reply = discord.Embed(title="Soccer Spirits Commands:",
+                                  description="Please use any of these commands followed by '.ss' to search.\n **For an example:** `;ss tw Miri: Miri is wondering`",
+                                  color=0x03a1fc)
+            reply.add_field(name="Tw <player>: <sentence>", value="Returns the teamwork of the given player. The full teamwork sentence does not have to be entered.")
+            await self.bot.say(embed=reply)
+        if mes.lower().startswith("tw ") or mes.lower().startswith("teamwork "):
+            try:
+                content = mes.lower().split(" ", maxsplit=1)[1]
+                player = content.split(":", maxsplit=1)[0].strip()
+                question = content.split(":", maxsplit=1)[1].strip()
+
+                get_teamwork = ssCMDS.get_teamwork(player, question)
+
+                reply = discord.Embed(title="{} Teamwork".format(get_teamwork[0]),
+                                      description="**Question:** {}\n\n **Answer:** {}".format(get_teamwork[1], get_teamwork[2]),
+                                      color=0x5cffbe)
+                reply.set_footer(text=self.bot.user.name, icon_url=self.bot.user.avatar_url)
+
+                await self.bot.say(embed=reply)
+            except:
+                reply = discord.Embed(title="Error",
+                                      description="Please use the proper format\n\nExample: `;ss tw Miri: Miri is wondering`",
+                                      color=0x5cffbe)
+                reply.set_footer(text=self.bot.user.name, icon_url=self.bot.user.avatar_url)
+
+                await self.bot.say(embed=reply)
+
+
+def setup(bot):
+    bot.add_cog(MainCommands(bot))
