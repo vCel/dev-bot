@@ -6,7 +6,7 @@ class MainCommands(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(pass_context=True, aliases=["h", "bangwo", "tasukete"])
+    @bot.command(pass_context=True, aliases=["h", "bangwo", "tasukete"])
     async def help(self, ctx):
         embed = discord.Embed(description="To use me, please use the ';' prefix followed by any of the commands listed below.\n"
                                           ""
@@ -26,12 +26,12 @@ class MainCommands(commands.Cog):
 
                               color=0x39fc03)
         embed.set_author(name="Nezuko Help")
-        await self.bot.send(ctx.message.author, embed=embed)
+        await self.bot.send_message(ctx.message.author, embed=embed)
         reply = discord.Embed(title="Help Sent!",
                               description="A Direct Message with the list of commands has been sent to you.",
                               color=0x39fc03)
         reply.set_footer(text=self.bot.user.name, icon_url=self.bot.user.avatar_url)
-        await self.bot.say(embed=reply)
+        await self.bot.send(embed=reply)
 
 
 def setup(bot):
