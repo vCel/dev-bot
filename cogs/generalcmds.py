@@ -22,7 +22,7 @@ class MainCommands(commands.Cog):
 
     @commands.command(pass_context=True)
     async def info(self, ctx):
-        owner_info = await self.bot.get_user_info("159194897855807488")
+        owner_info = await self.bot.fetch_user("159194897855807488")
         reply = discord.Embed(title="Nezuko Information (´｡• ᵕ •｡`)", description="I am a bot made by **{}**. :)".format(owner_info),
                               color=0xffffff)
         await ctx.message.channel.send(embed=reply)
@@ -79,7 +79,7 @@ class MainCommands(commands.Cog):
 
         for i, option in enumerate(value):
             new_emoji = emoji="{}\u20e3".format(i + 1)
-            box += "{} {}.\n".format(new_emoji, option)
+            box += "{} {}\n".format(new_emoji, option)
 
         reply = discord.Embed(title=split_value[0],
                               description=box,
