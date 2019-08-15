@@ -31,4 +31,4 @@ class NezukoBot:
 if __name__ == "__main__":
     for cog in cogs:
         bot.load_extension(cog)
-    bot.run("NjA2MzMxNDAxMTA4NzE3NTcw.XUJhVw.WmKdJ7Sv7lUU4QMofMIpi5fAxSE")
+    bot.run(TOKEN)
