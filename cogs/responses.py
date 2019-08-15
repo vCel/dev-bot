@@ -8,13 +8,13 @@ class Responses(commands.Cog):
 
     async def on_message(self, message):
         if message.content.lower().startswith("wha-") and not message.author.bot:
-            await ctx.message.channel.send("Wha-")
+            await message.channel.send("Wha-")
         if message.content.lower().startswith("creeper") and not message.author.bot:
-            await ctx.message.channel.send("Aww man")
+            await message.channel.send("Aww man")
         if "uwu" in message.content.lower() and not message.author.bot:
-            await ctx.message.channel.send("uwu")
+            await message.channel.send("uwu")
         if "owo" in message.content.lower() and not message.author.bot:
-            await ctx.message.channel.send("*W-what's this*")
+            await message.channel.send("*W-what's this*")
 
 
 def setup(bot):
