@@ -25,13 +25,13 @@ class MainCommands(commands.Cog):
         owner_info = await self.bot.get_user_info("159194897855807488")
         reply = discord.Embed(title="Nezuko Information (´｡• ᵕ •｡`)", description="I am a bot made by **{}**. :)".format(owner_info),
                               color=0xffffff)
-        await self.bot.say(embed=reply)
+        await ctx.message.channel.send(embed=reply)
 
     @commands.command(pass_context=True, aliases=["F"])
     async def f(self, ctx):
         reply = discord.Embed(description="**{}** has paid their respect.".format(ctx.message.author.name),
                               color=0xffffff)
-        await self.bot.say(embed=reply)
+        await ctx.message.channel.send(embed=reply)
 
     @commands.command(pass_context=True, aliases=["flip"])
     async def coin(self, ctx):
@@ -42,7 +42,7 @@ class MainCommands(commands.Cog):
         reply = discord.Embed(description="The coin landed on {}.".format(side),
                               color=0xffffff)
         reply.set_footer(text=self.bot.user.name, icon_url=self.bot.user.avatar_url)
-        await self.bot.say(embed=reply)
+        await ctx.message.channel.send(embed=reply)
 
     @commands.command(pass_context=True, aliases=["choose"])
     async def pick(self, ctx, *, value=""):
@@ -54,7 +54,7 @@ class MainCommands(commands.Cog):
             return
         value = value.split(",")
         answer = value[randint(0, len(value) - 1)]
-        await self.bot.say("I pick **{}**! o(>< )o".format(answer))
+        await ctx.message.channel.send("I pick **{}**! o(>< )o".format(answer))
 
     @commands.command(pass_context=True)
     async def poll(self, ctx, *, value=""):
@@ -62,7 +62,7 @@ class MainCommands(commands.Cog):
         if value == "":
             reply = discord.Embed(description="Please enter at least one option. (・`ω´・)",
                                   color=0x2effe7)
-            await self.bot.say(embed=reply)
+            await ctx.message.channel.send(embed=reply)
             return
 
         try:
@@ -74,7 +74,7 @@ class MainCommands(commands.Cog):
         if len(value) > 9:
             reply = discord.Embed(description="You may only have up to 9 options... (・`ω´・)",
                                   color=0x2effe7)
-            await self.bot.say(embed=reply)
+            await ctx.message.channel.send(embed=reply)
             return
 
         for i, option in enumerate(value):
@@ -87,7 +87,7 @@ class MainCommands(commands.Cog):
         reply.set_author(name="{}'s Poll".format(ctx.message.author.name), icon_url=ctx.message.author.avatar_url)
         msg = await self.bot.say(embed=reply)
         for length in range(len(value)):
-            await self.bot.add_reaction(msg, emoji="{}\u20e3".format(length + 1))
+            await ctx.message.add_reaction(msg, emoji="{}\u20e3".format(length + 1))
 
 
 def setup(bot):
