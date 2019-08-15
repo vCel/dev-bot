@@ -9,6 +9,7 @@ bot = commands.Bot(command_prefix=command_prefix, description=description)
 TOKEN = os.getenv('TOKEN')
 
 cogs = ["cogs.APIcmds", "cogs.generalcmds", "cogs.responses", "cogs.gethelp"]
+game = "h-hewwo | {}help"
 
 
 class NezukoBot:
@@ -23,7 +24,7 @@ class NezukoBot:
               "Discord Version: {} \n"
               "==================="
               .format(bot.user.name, bot.user.id, discord.__version__))
-        await bot.change_presence(game=discord.Game(name="h-hewwo | {}help".format(command_prefix)))
+        await bot.change_presence(status=discord.Status.online, activity=game)
 
     bot.remove_command('help')
 
