@@ -16,7 +16,7 @@ class MainCommands(commands.Cog):
                                           "info :: Displays information about this bot.\n"
                                           "coin :: Flips a coin for when you can't decide on something.\n"
                                           "pick <a>, <b>.. :: Decides on a random option given.\n"
-                                          "poll <a>, <b>.. :: Starts a poll with entered options.\n"
+                                          "poll <question>: <a>, <b>.. :: Starts a poll with entered options.\n"
                                           "f :: For times when you need to pay respect.\n"
                                           "\n= Search from an API =\n\n"
                                           "anime <name> :: Searches an anime from MyAnimeList. (Incomplete until MAL API is back up)\n"
