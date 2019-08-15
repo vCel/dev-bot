@@ -9,7 +9,7 @@ bot = commands.Bot(command_prefix=command_prefix, description=description)
 TOKEN = os.getenv('TOKEN')
 
 cogs = ["cogs.APIcmds", "cogs.generalcmds", "cogs.responses", "cogs.gethelp"]
-game = "h-hewwo | {}help"
+game = discord.Game("h-hewwo | {}help")
 
 
 class NezukoBot:
