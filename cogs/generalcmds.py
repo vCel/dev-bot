@@ -50,7 +50,7 @@ class MainCommands(commands.Cog):
         if value=="":
             reply = discord.Embed(description="{}".format(answer),
                                   color=0xffffff)
-            await self.bot.say(embed=reply)
+            await ctx.message.channel.send(embed=reply)
             return
         value = value.split(",")
         answer = value[randint(0, len(value) - 1)]
@@ -85,7 +85,7 @@ class MainCommands(commands.Cog):
                               description=box,
                               color=0x2effe7)
         reply.set_author(name="{}'s Poll".format(ctx.message.author.name), icon_url=ctx.message.author.avatar_url)
-        msg = await self.bot.say(embed=reply)
+        msg = await ctx.message.channel.send(embed=reply)
         for length in range(len(value)):
             await ctx.message.add_reaction(msg, emoji="{}\u20e3".format(length + 1))
 
