@@ -31,7 +31,7 @@ class MainCommands(commands.Cog):
                               description="A Direct Message with the list of commands has been sent to you.",
                               color=0x39fc03)
         reply.set_footer(text=self.bot.user.name, icon_url=self.bot.user.avatar_url)
-        await self.bot.send(embed=reply)
+        await self.bot.say(embed=reply)
 
 
 def setup(bot):
