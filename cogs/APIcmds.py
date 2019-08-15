@@ -13,7 +13,7 @@ colours = {
 }
 
 
-class HandleError:
+class HandleError(commands.Cog):
     def HandleType(self):
         reply = discord.Embed(title="No results.",
                               description="Please ensure that the name you have entered is correct.",
