@@ -30,5 +30,8 @@ class NezukoBot:
 
 if __name__ == "__main__":
     for cog in cogs:
-        bot.load_extension(cog)
+        try:
+            bot.load_extension(cog)
+        except Exception as error:
+            print("{} failed to load. \n [{}]".format(cog, error))
     bot.run(TOKEN)
