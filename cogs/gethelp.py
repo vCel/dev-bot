@@ -26,12 +26,13 @@ class MainCommands(commands.Cog):
 
                               color=0x39fc03)
         embed.set_author(name="Nezuko Help")
-        await self.bot.send_message(ctx.message.author, embed=embed)
+        #await self.bot.send_message(ctx.message.author, embed=embed)
+        await ctx.message.author.send(embed=embed)
         reply = discord.Embed(title="Help Sent!",
                               description="A Direct Message with the list of commands has been sent to you.",
                               color=0x39fc03)
         reply.set_footer(text=self.bot.user.name, icon_url=self.bot.user.avatar_url)
-        await self.bot.say(embed=reply)
+        await ctx.message.channel.send(embed=reply)
 
 
 def setup(bot):
