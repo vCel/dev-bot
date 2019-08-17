@@ -29,10 +29,10 @@ class Gold(commands.Cog):
         data = requests.get(local_time)
         date_time = data.json()
 
-        notify_time = ["00", "06", "12", "19"]
+        notify_time = ["00", "06", "12", "18"]
 
         print(notify_gold)
-        if date_time["day_of_week"] <= 6:
+        if date_time["day_of_week"] < 6:
             get_time = date_time["datetime"]
             start = get_time.find("T") + 1
             end = get_time.find(":", start)
