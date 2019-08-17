@@ -24,7 +24,7 @@ class MainCommands(commands.Cog):
                                           "e7 :: Look up information regarding the mobile game 'Epic 7' (Heroes, Artifacts, Items).\n"
                                           "ss :: Looks up information regarding the mobile game 'Soccer Spirits' (Teamwork).\n"
                                           "\n= Set reminders =\n\n"
-                                          "ng :: Enables/Disables notifications about Gold Guerilla Matches in 'Soccer Spirits'```",
+                                          "ng :: Enables/Disables notifications about Gold Guerilla Matches in 'Soccer Spirits' (admin)```",
 
                               color=0x39fc03)
         embed.set_author(name="Nezuko Help")
