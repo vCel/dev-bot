@@ -43,7 +43,7 @@ class Gold(commands.Cog):
                         break
                     current_time = thetime
                     channel = self.bot.get_channel(server)
-                    await channel.send("Gold Guerilla Match is on!")
+                    await channel.send("Gold Guerilla Match has started!")
 
 
 def setup(bot):
