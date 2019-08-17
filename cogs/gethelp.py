@@ -22,7 +22,9 @@ class MainCommands(commands.Cog):
                                           "anime <name> :: Searches an anime from MyAnimeList. (Incomplete until MAL API is back up)\n"
                                           "manga <name> :: Searches a manga from MyAnimeList. (Incomplete until MAL API is back up)\n"
                                           "e7 :: Look up information regarding the mobile game 'Epic 7' (Heroes, Artifacts, Items).\n"
-                                          "ss :: Looks up information regarding the mobile game 'Soccer Spirits' (Teamwork).```",
+                                          "ss :: Looks up information regarding the mobile game 'Soccer Spirits' (Teamwork).\n"
+                                          "\n= Set reminders =\n\n"
+                                          "ng :: Enables/Disables notifications about Gold Guerilla Matches in 'Soccer Spirits'```",
 
                               color=0x39fc03)
         embed.set_author(name="Nezuko Help")
