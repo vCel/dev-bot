@@ -16,10 +16,10 @@ class Gold(commands.Cog):
     async def notifygold(self, ctx):
         if ctx.message.channel.id in notify_gold:
             notify_gold.remove(ctx.message.channel.id)
-            await ctx.message.channel.send("Gold Guerilla Match notifications will now be **disabled** for channel {}.".format(ctx.message.channel))
+            await ctx.message.channel.send("Gold Guerilla Match notifications will now be **disabled** for channel '{}'.".format(ctx.message.channel))
         else:
             notify_gold.append(ctx.message.channel.id)
-            await ctx.message.channel.send("Gold Guerilla Match notifications will now be **enabled** for channel {}.".format(ctx.message.channel))
+            await ctx.message.channel.send("Gold Guerilla Match notifications will now be **enabled** for channel '{}'.".format(ctx.message.channel))
 
     @tasks.loop(seconds=5.0)
     async def check_time(self):
