@@ -29,7 +29,7 @@ class MainCommands(commands.Cog):
 
     @commands.command(pass_context=True, aliases=["F"])
     async def f(self, ctx):
-        ctx.message.delete()
+        await ctx.message.delete()
         reply = discord.Embed(description="**{}** has paid their respect.".format(ctx.message.author.name),
                               color=0xffffff)
         await ctx.message.channel.send(embed=reply)
