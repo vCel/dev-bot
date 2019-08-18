@@ -6,6 +6,7 @@ class Responses(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+    @commands.Cog.listener()
     async def on_message(self, message):
         if message.content.lower().startswith("wha-") and not message.author.bot:
             await message.channel.send("Wha-")
