@@ -29,9 +29,9 @@ class Gold(commands.Cog):
         data = requests.get(local_time)
         date_time = data.json()
 
-        notify_time = ["00", "06", "12", "18"]
+        notify_time = ["06", "12", "18"]
 
-        if date_time["day_of_week"] < 6:
+        if date_time["day_of_week"] > 0 and date_time["day_of_week"] < 6:
             get_time = date_time["datetime"]
             start = get_time.find("T") + 1
             end = get_time.find(":", start)
@@ -41,10 +41,10 @@ class Gold(commands.Cog):
                 for server in notify_gold:
                     if current_time == thetime:
                         break
-                    current_time = thetime
                     channel = self.bot.get_channel(server)
                     await channel.send("Gold Guerilla Match has started!")
-
+                    current_time = thetime
+                
 
 def setup(bot):
     bot.add_cog(Gold(bot))
