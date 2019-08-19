@@ -20,7 +20,22 @@ class Gold(commands.Cog):
         else:
             notify_gold.append(ctx.message.channel.id)
             await ctx.message.channel.send("Gold Guerilla Match notifications will now be **enabled** for channel '{}'.".format(ctx.message.channel))
+    
+    @commands.command(pass_context=True)
+    async def print(self, ctx):
+        await self.bot.wait_until_ready()
+        global current_time
+        local_time = "http://worldtimeapi.org/api/timezone/Australia/Brisbane"
+        data = requests.get(local_time)
+        date_time = data.json()
+        get_time = date_time["datetime"]
+        start = get_time.find("T") + 1
+        end = get_time.find(":", start)
+        thetime = get_time[start:end]
+        
+        await ctx.message.channel.send("The Time is: {} and the 'current time': {}".format(thetime, current_time))
 
+    
     @tasks.loop(seconds=5.0)
     async def check_time(self):
         await self.bot.wait_until_ready()
