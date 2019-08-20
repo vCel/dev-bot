@@ -36,7 +36,7 @@ class Gold(commands.Cog):
         await ctx.message.channel.send("The Time is: {} and the 'current time': {}".format(thetime, current_time))
 
     
-    @tasks.loop(seconds=5.0)
+    @tasks.loop(seconds=10.0)
     async def check_time(self):
         global current_time
         local_time = "http://worldtimeapi.org/api/timezone/Australia/Brisbane"
