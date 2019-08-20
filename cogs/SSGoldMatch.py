@@ -38,7 +38,6 @@ class Gold(commands.Cog):
     
     @tasks.loop(seconds=5.0)
     async def check_time(self):
-        await self.bot.wait_until_ready()
         global current_time
         local_time = "http://worldtimeapi.org/api/timezone/Australia/Brisbane"
         data = requests.get(local_time)
@@ -64,6 +63,11 @@ class Gold(commands.Cog):
                     await channel.send("Gold Guerilla Match has started!")
                     current_time = thetime
                     print("check4")
+                    
+    @check_time.before_loop
+    async def before_check(self):
+        print('waiting...')
+        await self.bot.wait_until_ready()
                 
 
 def setup(bot):
