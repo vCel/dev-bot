@@ -36,7 +36,7 @@ class Gold(commands.Cog):
         await ctx.message.channel.send("The Time is: {} and the 'current time': {}".format(thetime, current_time))
 
     
-    @tasks.loop(seconds=10.0)
+    @tasks.loop(seconds=20.0)
     async def check_time(self):
         global current_time
         local_time = "http://worldtimeapi.org/api/timezone/Australia/Brisbane"
@@ -51,7 +51,7 @@ class Gold(commands.Cog):
             end = get_time.find(":", start)
             thetime = get_time[start:end]
             print("check0")
-            if thetime in notify_time:
+            if thetime == "00" or thetime == "06" or thetime == "12" or thetime == "18":
                 print("check1")
                 for server in notify_gold:
                     print("check2")
