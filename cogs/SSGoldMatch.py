@@ -51,7 +51,7 @@ class Gold(commands.Cog):
             end = get_time.find(":", start)
             thetime = get_time[start:end]
             print("check0")
-            if thetime == "00" or thetime == "06" or thetime == "12" or thetime == "18":
+            if thetime in notify_time:
                 print("check1")
                 for server in notify_gold:
                     print("check2")
