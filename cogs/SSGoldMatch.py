@@ -4,7 +4,7 @@ from discord.ext import commands, tasks
 
 notify_gold = [560368910881521666]
 current_time = "69"
-
+local_time = "http://worldtimeapi.org/api/timezone/Australia/Brisbane"
 
 class Gold(commands.Cog):
     def __init__(self, bot):
@@ -25,7 +25,7 @@ class Gold(commands.Cog):
     async def print(self, ctx):
         await self.bot.wait_until_ready()
         global current_time
-        local_time = "http://worldtimeapi.org/api/timezone/Australia/Brisbane"
+       
         data = requests.get(local_time)
         date_time = data.json()
         get_time = date_time["datetime"]
@@ -39,7 +39,6 @@ class Gold(commands.Cog):
     @tasks.loop(seconds=20.0)
     async def check_time(self):
         global current_time
-        local_time = "http://worldtimeapi.org/api/timezone/Australia/Brisbane"
         data = requests.get(local_time)
         date_time = data.json()
 
