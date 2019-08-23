@@ -50,11 +50,7 @@ class Gold(commands.Cog):
         notify_time = ["00", "06", "12", "18"]
         
 
-        if thetime in notify_tim:
-            get_time = date_time["datetime"]
-            start = get_time.find("T") + 1
-            end = get_time.find(":", start)
-            thetime = get_time[start:end]
+        if thetime in notify_time:
             print("check0")
             if date_time["day_of_week"] > 0 and date_time["day_of_week"] < 6:
                 print("check1")
