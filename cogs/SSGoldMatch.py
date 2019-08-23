@@ -49,7 +49,6 @@ class Gold(commands.Cog):
         
         notify_time = ["00", "06", "12", "18"]
         
-
         if thetime in notify_time:
             print("check0")
             if date_time["day_of_week"] > 0 and date_time["day_of_week"] < 6:
