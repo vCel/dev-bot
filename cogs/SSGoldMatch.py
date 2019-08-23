@@ -48,21 +48,23 @@ class Gold(commands.Cog):
         thetime = get_time[start:end]
         
         notify_time = ["00", "06", "12", "18"]
-        
-        if thetime in notify_time:
-            print("check0")
-            if date_time["day_of_week"] > 0 and date_time["day_of_week"] < 6:
-                print("check1")
-                for server in notify_gold:
-                    print("check2")
-                    if current_time == thetime:
-                        print("check_break")
-                        break
-                    print("check3")
-                    channel = self.bot.get_channel(server)
-                    await channel.send("Gold Guerilla Match has started!")
-                    current_time = thetime
-                    print("check4")
+        try:
+            if thetime in notify_time:
+                print("check0")
+                if date_time["day_of_week"] > 0 and date_time["day_of_week"] < 6:
+                    print("check1")
+                    for server in notify_gold:
+                        print("check2")
+                        if current_time == thetime:
+                            print("check_break")
+                            break
+                        print("check3")
+                        channel = self.bot.get_channel(server)
+                        await channel.send("Gold Guerilla Match has started!")
+                        current_time = thetime
+                        print("check4")
+        except:
+            print("Error loop.")
                     
     @check_time.before_loop
     async def before_check(self):
