@@ -38,6 +38,7 @@ class Gold(commands.Cog):
     
     @tasks.loop(seconds=20.0)
     async def check_time(self):
+        await self.bot.wait_until_ready()
         global current_time
         data = requests.get(local_time)
         date_time = data.json()
@@ -66,10 +67,10 @@ class Gold(commands.Cog):
         except:
             print("Error loop.")
                     
-    @check_time.before_loop
-    async def before_check(self):
-        print('waiting...')
-        await self.bot.wait_until_ready()
+    #@check_time.before_loop
+    #async def before_check(self):
+    #    print('waiting...')
+    #    await self.bot.wait_until_ready()
                 
 
 def setup(bot):
