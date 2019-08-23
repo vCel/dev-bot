@@ -41,16 +41,22 @@ class Gold(commands.Cog):
         global current_time
         data = requests.get(local_time)
         date_time = data.json()
-
+        
+        get_time = date_time["datetime"]
+        start = get_time.find("T") + 1
+        end = get_time.find(":", start)
+        thetime = get_time[start:end]
+        
         notify_time = ["00", "06", "12", "18"]
+        
 
-        if date_time["day_of_week"] > 0 and date_time["day_of_week"] < 6:
+        if thetime in notify_tim:
             get_time = date_time["datetime"]
             start = get_time.find("T") + 1
             end = get_time.find(":", start)
             thetime = get_time[start:end]
             print("check0")
-            if thetime in notify_time:
+            if date_time["day_of_week"] > 0 and date_time["day_of_week"] < 6:
                 print("check1")
                 for server in notify_gold:
                     print("check2")
