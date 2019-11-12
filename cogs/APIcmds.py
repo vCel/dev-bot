@@ -189,6 +189,7 @@ class MainCommands(commands.Cog):
                                   description="Please use any of these commands followed by '.ss' to search.\n **For an example:** `;ss tw Miri: Miri is wondering`",
                                   color=0x03a1fc)
             reply.add_field(name="Tw <player>: <sentence>", value="Returns the teamwork of the given player. The full teamwork sentence does not have to be entered.")
+            reply.add_field(name="UQ <stone>", value="Returns the effects of the unique stone.")
             await ctx.message.channel.send(embed=reply)
         if mes.lower().startswith("tw ") or mes.lower().startswith("teamwork "):
             try:
