@@ -14,7 +14,8 @@ class Responses(commands.Cog):
             await message.channel.send("uwu")
         if "owo" in message.content.lower() and not message.author.bot:
             await message.channel.send("*W-what's this*")
-
+            
+            
 
 def setup(bot):
     bot.add_cog(Responses(bot))
