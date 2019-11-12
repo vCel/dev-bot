@@ -10,8 +10,6 @@ class Responses(commands.Cog):
     async def on_message(self, message):
         if message.content.lower().startswith("wha-") and not message.author.bot:
             await message.channel.send("Wha-")
-        if message.content.lower().startswith("creeper") or message.content.lower().startswith(":creeper:") and not message.author.bot:
-            await message.channel.send("Aww man")
         if "uwu" in message.content.lower() and not message.author.bot:
             await message.channel.send("uwu")
         if "owo" in message.content.lower() and not message.author.bot:
