@@ -87,6 +87,9 @@ class MainCommands(commands.Cog):
                               color=0x2effe7)
         reply.set_author(name="{}'s Poll".format(ctx.message.author.name), icon_url=ctx.message.author.avatar_url)
         msg = await ctx.message.channel.send(embed=reply)
+        
+        sent_msg = await ctx.message.channel.fetch_message(ctx.message.id)
+        await sent_msg.delete()
         for length in range(len(value)):
             await msg.add_reaction(emoji="{}\u20e3".format(length + 1))
 
