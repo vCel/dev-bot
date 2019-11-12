@@ -12,6 +12,14 @@ colours = {
     "Light": 0xffff30
 }
 
+SS_colours = {
+    "F6CECE": 0xF6CECE,
+    "A9F5A9": 0xA9F5A9,
+    "A9D0F5": 0xA9D0F5,
+    "F3F781": 0xF3F781,
+    "6A0888": 0x6A0888
+}
+
 
 class HandleError(commands.Cog):
     def HandleType(self):
@@ -202,6 +210,28 @@ class MainCommands(commands.Cog):
                                       color=0x5cffbe)
                 reply.set_footer(text=self.bot.user.name, icon_url=self.bot.user.avatar_url)
 
+                await ctx.message.channel.send(embed=reply)
+
+        if mes.lower().startswith("uq ") or mes.lower().startswith("unique "):
+            try:
+                content = mes.lower().split(" ", maxsplit=1)[1]
+                get_stone = ssCMDS.get_UQ(content)
+                if get_stone == "empty":
+                    await ctx.message.channel.send(embed=HandleError.HandleType(self))
+                    return
+
+                reply = discord.Embed(title=get_stone[0],
+                                      description="{}\n {} \n > **Legendary:** {}".format(get_stone[3], get_stone[4], get_stone[5]),
+                                      color=SS_colours[get_stone[1]])
+                reply.set_thumbnail(url=get_stone[2])
+                reply.set_author(name="Unique Stone")
+                reply.set_footer(text=self.bot.user.name, icon_url=self.bot.user.avatar_url)
+                await ctx.message.channel.send(embed=reply)
+            except:
+                reply = discord.Embed(title="Error",
+                                      description="Please use the proper format\n\nExample: `;ss uq EBM`",
+                                      color=0x5cffbe)
+                reply.set_footer(text=self.bot.user.name, icon_url=self.bot.user.avatar_url)
                 await ctx.message.channel.send(embed=reply)
 
 
