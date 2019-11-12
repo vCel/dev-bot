@@ -20,8 +20,7 @@ class MainCommands(commands.Cog):
                                           "f :: For times when you need to pay respect.\n"
                                           "\n= Search from an API =\n\n"
                                           "e7 :: Look up information regarding the mobile game 'Epic 7' (Heroes, Artifacts, Items).\n"
-                                          "ss :: Looks up information regarding the mobile game 'Soccer Spirits' (Teamwork).\n"
-                                          "\n= Set reminders =\n\n",
+                                          "ss :: Looks up information regarding the mobile game 'Soccer Spirits' (Teamwork).\n",
                               color=0x39fc03)
         embed.set_author(name="Nezuko Help")
         await ctx.message.author.send(embed=embed)
