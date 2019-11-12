@@ -30,3 +30,49 @@ def get_teamwork(player, question):
             break
 
     return ["Error has occurred.", "Player not Found.", ""]
+
+
+def get_UQ(stone):
+    url = "https://soccerspirits.fandom.com/wiki/Category:Unique_(Spirit_Stone)"
+    key = '<div style="border-top-left-radius:3px; border-top-right-radius:3px; text-align:left;text-indent:5px; background:'
+    get_request = requests.get(url)
+    content = get_request.text
+
+    counter = content.count(key)
+    current_pos = 0
+
+    for number in range(counter):
+        findSection = content.find(key, current_pos)
+
+        colour1 = content.find("#", findSection)
+        colour2 = content.find(";", colour1)
+        get_colour = content[colour1+1:colour2]
+
+        name1 = content.find("<b>", colour2)
+        name2 = content.find("</b>", name1)
+        get_name = content[name1+3:name2]
+
+        img1 = content.find('https://vignette.wikia.nocookie.net/soccerspirits/images/', name2)
+        img2 = content.find('"', img1)
+        get_img = content[img1:img2]
+
+        effecta1 = content.find("<td> ", img2)
+        effecta2 = content.find("</td></tr>", effecta1)
+        get_effecta = content[effecta1+5:effecta2]
+
+        effectb1 = content.find("<td> ", effecta2)
+        effectb2 = content.find("</td></tr>", effectb1)
+        get_effectb = content[effectb1+5:effectb2]
+
+
+        leg_key = '</td><td style="margin:1px; padding:4px; background:#F8F8F8;"> <b>'
+        legend1 = content.find(leg_key, effectb2)
+        legend2 = content.find('</b>', legend1)
+        get_legend = content[legend1+len(leg_key):legend2]
+
+        current_pos = colour2
+
+        if stone in get_name.lower():
+            return [get_name, get_colour, get_img, get_effecta, get_effectb, get_legend]
+
+    return "empty"
