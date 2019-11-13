@@ -149,7 +149,7 @@ class MainCommands(commands.Cog):
                                   color=0xff7300)
             reply.set_thumbnail(url="https://assets.epicsevendb.com/{}/{}/icon.png".format("artifact", name))
             reply.add_field(name="Lore:", value=lore_temp, inline=False)
-            reply.add_field(name="Skills:", value="**Level 1:** {}\n **Maxed:** {}".format(get_artifact["skillDescription"]["base"], get_artifact["skillDescription"]["max"]))
+            reply.add_field(name="Skills:", value="**Level 1:** {}\n **Maxed:** {}".format(get_artifact["skillDescription"]["base"], get_artifact["skillDescription"]["max"]), inline=False)
             reply.add_field(name="Stats (Level 1):", value="ATK: {}\n HP: {}".format(get_artifact["stats"]["base"]["atk"], get_artifact["stats"]["base"]["hp"]))
             reply.add_field(name="Stats (Max):", value="ATK: {}\n HP: {}".format(get_artifact["stats"]["max"]["atk"], get_artifact["stats"]["max"]["hp"]))
             reply.set_footer(text=self.bot.user.name, icon_url=self.bot.user.avatar_url)
