@@ -187,10 +187,11 @@ class MainCommands(commands.Cog):
     async def ss(self, ctx, *, mes=""):
         if mes == "":
             reply = discord.Embed(title="Soccer Spirits Commands:",
-                                  description="Please use any of these commands followed by '.ss' to search.\n **For an example:** `;ss tw Miri: Miri is wondering`",
+                                  description="Please use any of these commands followed by ';ss' to search.\n **For an example:** `;ss tw Miri: Miri is wondering`",
                                   color=0x03a1fc)
-            reply.add_field(name="Tw <player>: <sentence>", value="Returns the teamwork of the given player. The full teamwork sentence does not have to be entered.")
-            reply.add_field(name="UQ <stone>", value="Returns the effects of the unique stone.")
+            reply.add_field(name="Tw <player>: <sentence>", value="Returns the teamwork of the given player. The full teamwork sentence does not have to be entered.", inline=False)
+            reply.add_field(name="UQ <stone>", value="Returns the effects of the unique stone.", inline=False)
+            reply.add_field(name="DR <value> <value> <value>..", value="Calculates the DR from the given values. Please enter the values as integers.", inline=False)
             await ctx.message.channel.send(embed=reply)
         if mes.lower().startswith("tw ") or mes.lower().startswith("teamwork "):
             try:
@@ -232,6 +233,31 @@ class MainCommands(commands.Cog):
             except:
                 reply = discord.Embed(title="Error",
                                       description="Please use the proper format\n\nExample: `;ss uq EBM`",
+                                      color=0x5cffbe)
+                reply.set_footer(text=self.bot.user.name, icon_url=self.bot.user.avatar_url)
+                await ctx.message.channel.send(embed=reply)
+        if mes.lower().startswith("dr ") or mes.lower().startswith("damagereduction "):
+            try:
+                content = mes.lower().split(" ", maxsplit=1)[1]
+                values = content.split(" ")
+                dr_total = 0
+                for index in range(len(values)):
+                    if index == 0:
+                        dr_total = 1 - (int(values[index])/100)
+                        print(dr_total)
+                    else:
+                        dr_total = dr_total * (1 - (int(values[index])/100))
+                        print(dr_total)
+                dr_total = 1 - dr_total
+                dr_total = round(dr_total * 100, 2)
+                reply = discord.Embed(title="Soccer Spirits Damage Reduction Calculator",
+                                      description="> {}\n**Damage Reduction:** {}%".format(values ,dr_total),
+                                      color=0x5cffbe)
+                reply.set_footer(text=self.bot.user.name, icon_url=self.bot.user.avatar_url)
+                await ctx.message.channel.send(embed=reply)
+            except:
+                reply = discord.Embed(title="Error",
+                                      description="Please use the proper format\n\nExample: `;ss dr 30 45 15`",
                                       color=0x5cffbe)
                 reply.set_footer(text=self.bot.user.name, icon_url=self.bot.user.avatar_url)
                 await ctx.message.channel.send(embed=reply)
