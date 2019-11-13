@@ -244,10 +244,8 @@ class MainCommands(commands.Cog):
                 for index in range(len(values)):
                     if index == 0:
                         dr_total = 1 - (int(values[index])/100)
-                        print(dr_total)
                     else:
                         dr_total = dr_total * (1 - (int(values[index])/100))
-                        print(dr_total)
                 dr_total = 1 - dr_total
                 dr_total = round(dr_total * 100, 2)
                 reply = discord.Embed(title="Soccer Spirits Damage Reduction Calculator",
