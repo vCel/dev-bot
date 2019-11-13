@@ -122,9 +122,9 @@ class MainCommands(commands.Cog):
                 if skill["isPassive"]:
                     skilltype = "Passive"
                 if skill["soulBurn"] > 0:
-                    reply.add_field(name="({}) {}".format(skilltype, skill["name"]), value="> Cooldown: {} turns  \n {} \n```\nSoul Burn: {}\nEffect: {}```".format(skill["cooldown"], skill["description"], skill["soulBurn"], skill["soulBurnEffect"]))
+                    reply.add_field(name="({}) {}".format(skilltype, skill["name"]), value="> Cooldown: {} turns  \n {} \n```\nSoul Burn: {}\nEffect: {}```".format(skill["cooldown"], skill["description"], skill["soulBurn"], skill["soulBurnEffect"]), inline=False)
                 else:
-                    reply.add_field(name="({}) {}".format(skilltype, skill["name"]), value="> Cooldown: {} turns  \n {}".format(skill["cooldown"], skill["description"]))
+                    reply.add_field(name="({}) {}".format(skilltype, skill["name"]), value="> Cooldown: {} turns  \n {}".format(skill["cooldown"], skill["description"]), inline=False)
             reply.set_thumbnail(url="https://assets.epicsevendb.com/{}/{}/icon.png".format("hero", name))
             reply.set_footer(text=self.bot.user.name, icon_url=self.bot.user.avatar_url)
 
