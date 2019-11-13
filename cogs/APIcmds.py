@@ -3,6 +3,7 @@ import json
 from discord.ext import commands
 import add_ons.epic7API as e7API
 import add_ons.ss_CMDS as ssCMDS
+import add_ons.al_CMDS as alCMDS
 
 colours = {
     "Fire": 0xff3535,
@@ -19,6 +20,13 @@ SS_colours = {
     "F3F781": 0xF3F781,
     "6A0888": 0x6A0888,
     "D0A9F5": 0xD0A9F5
+}
+
+AL_colours = {
+    "Common": 0xB9B9B9,
+    "Rare": 0x91DFFF,
+    "Elite": 0x8050FF,
+    "Super Rare": 0xFFE349
 }
 
 
@@ -256,6 +264,67 @@ class MainCommands(commands.Cog):
             except:
                 reply = discord.Embed(title="Error",
                                       description="Please use the proper format\n\nExample: `;ss dr 30 45 15`",
+                                      color=0x5cffbe)
+                reply.set_footer(text=self.bot.user.name, icon_url=self.bot.user.avatar_url)
+                await ctx.message.channel.send(embed=reply)
+
+    @commands.command(pass_context=True, aliases=["azurlane"])
+    async def al(self, ctx, *, mes=""):
+        if mes == "":
+            reply = discord.Embed(title="Azur Lane Commands:",
+                                    description="Please use any of these commands followed by ';al' to search.\n **For an example:** `;al ship Enterprise`",
+                                    color=0x03a1fc)
+            reply.add_field(name="ship <name>",
+                                value="Returns information about that ship.",
+                                inline=False)
+            reply.add_field(name="skins <ship>: <skin>",
+                            value="Returns the skin names for that ship.",
+                            inline=False)
+            await ctx.message.channel.send(embed=reply)
+        if mes.lower().startswith("ship ") or mes.lower().startswith("unit "):
+            content = mes.lower().split(" ", maxsplit=1)[1]
+            al_data = alCMDS.get_ship(content)
+            if al_data["statusCode"] != 200:
+                await ctx.message.channel.send(embed=HandleError.HandleType(self))
+                return
+            skin_string = ""
+            reply = discord.Embed(title="{} {}".format(al_data["ship"]["nationalityShort"], al_data["ship"]["names"]["en"]),
+                                  description="> {} | {}".format(al_data["ship"]["stars"]["value"], al_data["ship"]["rarity"]),
+                                  color=AL_colours[al_data["ship"]["rarity"]])
+            reply.add_field(name="Other names:", value="**cn:** {};  **jp:** {};  **kr:** {}".format(al_data["ship"]["names"]["cn"], al_data["ship"]["names"]["jp"], al_data["ship"]["names"]["kr"]), inline=False)
+            reply.add_field(name="Classification:", value=al_data["ship"]["hullType"])
+            reply.add_field(name="Class:", value=al_data["ship"]["class"])
+            reply.add_field(name="Nationality:", value=al_data["ship"]["nationality"])
+            reply.add_field(name="Build time:", value=al_data["ship"]["buildTime"])
+
+            for skin in al_data["ship"]["skins"]:
+                skin_string += "{}, ".format(skin["title"])
+
+            reply.add_field(name="Skins:", value=skin_string)
+            reply.set_thumbnail(url=al_data["ship"]["thumbnail"])
+            reply.set_footer(text=self.bot.user.name, icon_url=self.bot.user.avatar_url)
+            await ctx.message.channel.send(embed=reply)
+        if mes.lower().startswith("skin ") or mes.lower().startswith("skins "):
+            content = mes.lower().split(" ", maxsplit=1)[1]
+            try:
+                ship = content.lower().split(": ", maxsplit=1)[0]
+                skin = content.lower().split(": ", maxsplit=1)[1]
+                al_data = alCMDS.get_ship(ship)
+                if al_data["statusCode"] != 200:
+                    await ctx.message.channel.send(embed=HandleError.HandleType(self))
+                    return
+                for ship_skin in al_data["ship"]["skins"]:
+                    if skin in ship_skin["title"].lower():
+                        reply = discord.Embed(title="{} {}".format(al_data["ship"]["nationalityShort"], al_data["ship"]["names"]["en"]), description=ship_skin["title"], color=AL_colours[al_data["ship"]["rarity"]])
+                        reply.set_image(url=ship_skin["image"])
+                        reply.set_footer(text=self.bot.user.name, icon_url=self.bot.user.avatar_url)
+                        await ctx.message.channel.send(embed=reply)
+                        return
+                await ctx.message.channel.send(embed=HandleError.HandleType(self))
+                return
+            except:
+                reply = discord.Embed(title="Error",
+                                      description="Please use the proper format\n\nExample: `;al skin Akagi: Paradise`",
                                       color=0x5cffbe)
                 reply.set_footer(text=self.bot.user.name, icon_url=self.bot.user.avatar_url)
                 await ctx.message.channel.send(embed=reply)
