@@ -12,7 +12,7 @@ class Responses(commands.Cog):
             await message.channel.send("Wha-")
         if "uwu" in message.content.lower() and not message.author.bot:
             await message.channel.send("uwu")
-        if "owo" in message.content.lower() and not message.author.bot:
+        if message.content.lower().startswith("owo") and not message.author.bot:
             await message.channel.send("*W-what's this*")
             
             
