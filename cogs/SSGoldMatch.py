@@ -2,7 +2,7 @@ import discord
 import requests
 from discord.ext import commands, tasks
 
-notify_gold = [560368910881521666, 345720931689431041]
+notify_gold = [560368910881521666]
 current_time = "69"
 local_time = "http://worldtimeapi.org/api/timezone/Australia/Brisbane"
 
