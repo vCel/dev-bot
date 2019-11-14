@@ -2,7 +2,7 @@ import discord
 import requests
 from discord.ext import commands, tasks
 
-notify_gold = [560368910881521666]
+notify_gold = [560368910881521666, 345720931689431041]
 current_time = "69"
 local_time = "http://worldtimeapi.org/api/timezone/Australia/Brisbane"
 
@@ -51,19 +51,14 @@ class Gold(commands.Cog):
         notify_time = ["00", "06", "12", "18"]
         try:
             if thetime in notify_time:
-                print("check0")
                 if date_time["day_of_week"] > 0 and date_time["day_of_week"] < 6:
-                    print("check1")
                     for server in notify_gold:
-                        print("check2")
                         if current_time == thetime:
-                            print("check_break")
                             break
-                        print("check3")
                         channel = self.bot.get_channel(server)
-                        await channel.send("Gold Guerilla Match has started!")
+                        await channel.send("Gold Guerilla Match has started! \n\nBecause a free hosting service is being used, I may or may not notify. :(")
                         current_time = thetime
-                        print("check4")
+                        print("Active")
         except:
             print("Error loop.")
                     
