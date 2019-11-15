@@ -71,8 +71,31 @@ def get_UQ(stone):
         get_legend = content[legend1+len(leg_key):legend2]
 
         current_pos = colour2
-
         if stone in get_name.lower():
             return [get_name, get_colour, get_img, get_effecta, get_effectb, get_legend]
 
     return "empty"
+
+def get_stones(stone):
+    api = "https://raw.githubusercontent.com/vCel/SS_API/master/stones.json"
+    json_obj = requests.get(api)
+    data = json_obj.json()
+
+    for thing in data["stones"]:
+        if stone in thing["name"].lower():
+            return thing
+
+    return "empty"
+
+
+def get_stonelist():
+    api = "https://raw.githubusercontent.com/vCel/SS_API/master/stones.json"
+    json_obj = requests.get(api)
+    data = json_obj.json()
+
+    stonelist = ""
+
+    for stone in data["stones"]:
+        stonelist += "•\t {} [{}]\n".format(stone["name"], stone["element"].capitalize())
+
+    return stonelist
