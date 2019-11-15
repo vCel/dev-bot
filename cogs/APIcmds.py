@@ -208,6 +208,8 @@ class MainCommands(commands.Cog):
             reply.add_field(name="Tw <player>: <sentence>", value="Returns the teamwork of the given player. The full teamwork sentence does not have to be entered.", inline=False)
             reply.add_field(name="UQ <stone>", value="Returns the effects of the unique stone.", inline=False)
             reply.add_field(name="DR <value> <value> <value>..", value="Calculates the DR from the given values. Please enter the values as integers.", inline=False)
+            reply.add_field(name="Stonelist", value="Returns a list of 4 star rare spirit stones in the game.", inline=False)
+            reply.add_field(name="Stone <name>", value="Returns the effects of the 4 star rare spirit stone.", inline=False)
             await ctx.message.channel.send(embed=reply)
         if mes.lower().startswith("tw ") or mes.lower().startswith("teamwork "):
             try:
