@@ -22,6 +22,14 @@ SS_colours = {
     "D0A9F5": 0xD0A9F5
 }
 
+SS_colours2 = {
+    "ardor": 0xF6CECE,
+    "whirlwind": 0xA9F5A9,
+    "thunder": 0xA9D0F5,
+    "light": 0xF3F781,
+    "dark": 0xD0A9F5
+}
+
 AL_colours = {
     "Common": 0xB9B9B9,
     "Rare": 0x91DFFF,
@@ -122,9 +130,9 @@ class MainCommands(commands.Cog):
                 if skill["isPassive"]:
                     skilltype = "Passive"
                 if skill["soulBurn"] > 0:
-                    reply.add_field(name="({}) {}".format(skilltype, skill["name"]), value="> Cooldown: {} turns  \n {} \n```\nSoul Burn: {}\nEffect: {}```".format(skill["cooldown"], skill["description"], skill["soulBurn"], skill["soulBurnEffect"]), inline=False)
+                    reply.add_field(name="({}) {}".format(skilltype, skill["name"]), value="> Cooldown: {} turns  \n {} \n```\nSoul Burn: {}\nEffect: {}```".format(skill["cooldown"], skill["description"], skill["soulBurn"], skill["soulBurnEffect"]))
                 else:
-                    reply.add_field(name="({}) {}".format(skilltype, skill["name"]), value="> Cooldown: {} turns  \n {}".format(skill["cooldown"], skill["description"]), inline=False)
+                    reply.add_field(name="({}) {}".format(skilltype, skill["name"]), value="> Cooldown: {} turns  \n {}".format(skill["cooldown"], skill["description"]))
             reply.set_thumbnail(url="https://assets.epicsevendb.com/{}/{}/icon.png".format("hero", name))
             reply.set_footer(text=self.bot.user.name, icon_url=self.bot.user.avatar_url)
 
@@ -149,7 +157,7 @@ class MainCommands(commands.Cog):
                                   color=0xff7300)
             reply.set_thumbnail(url="https://assets.epicsevendb.com/{}/{}/icon.png".format("artifact", name))
             reply.add_field(name="Lore:", value=lore_temp, inline=False)
-            reply.add_field(name="Skills:", value="**Level 1:** {}\n **Maxed:** {}".format(get_artifact["skillDescription"]["base"], get_artifact["skillDescription"]["max"]), inline=False)
+            reply.add_field(name="Skills:", value="**Level 1:** {}\n **Maxed:** {}".format(get_artifact["skillDescription"]["base"], get_artifact["skillDescription"]["max"]))
             reply.add_field(name="Stats (Level 1):", value="ATK: {}\n HP: {}".format(get_artifact["stats"]["base"]["atk"], get_artifact["stats"]["base"]["hp"]))
             reply.add_field(name="Stats (Max):", value="ATK: {}\n HP: {}".format(get_artifact["stats"]["max"]["atk"], get_artifact["stats"]["max"]["hp"]))
             reply.set_footer(text=self.bot.user.name, icon_url=self.bot.user.avatar_url)
@@ -241,6 +249,41 @@ class MainCommands(commands.Cog):
             except:
                 reply = discord.Embed(title="Error",
                                       description="Please use the proper format\n\nExample: `;ss uq EBM`",
+                                      color=0x5cffbe)
+                reply.set_footer(text=self.bot.user.name, icon_url=self.bot.user.avatar_url)
+                await ctx.message.channel.send(embed=reply)
+        if mes.lower().startswith("stone ") or mes.lower().startswith("stones "):
+            try:
+                content = mes.lower().split(" ", maxsplit=1)[1]
+                get_stone = ssCMDS.get_stones(content)
+                if get_stone == "empty":
+                    await ctx.message.channel.send(embed=HandleError.HandleType(self))
+                    return
+
+                reply = discord.Embed(title=get_stone["name"],
+                                      description="{}\n\n {} \n".format(get_stone["effect1"], get_stone["effect2"]),
+                                      color=SS_colours2[get_stone["element"]])
+                reply.set_thumbnail(url=get_stone["image"])
+                reply.set_author(name="4★ Rare Spirit Stone")
+                reply.set_footer(text=self.bot.user.name, icon_url=self.bot.user.avatar_url)
+                await ctx.message.channel.send(embed=reply)
+            except:
+                reply = discord.Embed(title="Error",
+                                      description="Please use the proper format\n\nExample: `;ss stone last`",
+                                      color=0x5cffbe)
+                reply.set_footer(text=self.bot.user.name, icon_url=self.bot.user.avatar_url)
+                await ctx.message.channel.send(embed=reply)
+        if mes.lower().startswith("stonelist") or mes.lower().startswith("sl"):
+            try:
+                get_stones = ssCMDS.get_stonelist()
+                reply = discord.Embed(title="List of 4★ Rare Spirit Stones",
+                                      description=get_stones,
+                                      color=0xB9B9B9)
+                reply.set_footer(text=self.bot.user.name, icon_url=self.bot.user.avatar_url)
+                await ctx.message.channel.send(embed=reply)
+            except:
+                reply = discord.Embed(title="Error",
+                                      description="Please use the proper format\n\nExample: `;ss stonelist`",
                                       color=0x5cffbe)
                 reply.set_footer(text=self.bot.user.name, icon_url=self.bot.user.avatar_url)
                 await ctx.message.channel.send(embed=reply)
