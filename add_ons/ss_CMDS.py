@@ -71,10 +71,43 @@ def get_UQ(stone):
         get_legend = content[legend1+len(leg_key):legend2]
 
         current_pos = colour2
+        #print(get_name)
         if stone in get_name.lower():
             return [get_name, get_colour, get_img, get_effecta, get_effectb, get_legend]
 
     return "empty"
+
+
+def get_player(player, target):
+    api = "https://raw.githubusercontent.com/vCel/SS_API/master/players.json"
+    json_obj = requests.get(api)
+    data = json_obj.json()
+
+    return_list = {}
+
+    for unit in data["players"]:
+        if player in unit["name"].lower() or player in unit["alias"].lower():
+            if target == "player":
+                return_list = {
+                    "name": unit["name"],
+                    "gender": unit["gender"],
+                    "icon": unit["icon"],
+                    "role": unit["role"],
+                    "element": unit["element"],
+                    "immunity": unit["immunity"],
+                    "rarity": unit["rarity"],
+                    "stones": unit["stones"]
+                }
+            elif target == "skills":
+                return_list = {
+                    "name": unit["name"],
+                    "icon": unit["icon"],
+                    "element": unit["element"],
+                    "skills": unit["skills"],
+                }
+
+    return return_list
+
 
 def get_stones(stone):
     api = "https://raw.githubusercontent.com/vCel/SS_API/master/stones.json"
