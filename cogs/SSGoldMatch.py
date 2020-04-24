@@ -56,7 +56,6 @@ class Gold(commands.Cog):
                         if current_time == thetime:
                             break
                         channel = self.bot.get_channel(server)
-                        await channel.send("Gold Guerilla Match has started! \n\nBecause a free hosting service is being used, I may or may not notify. :(")
                         current_time = thetime
                         print("Active")
         except:
