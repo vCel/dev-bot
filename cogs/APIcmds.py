@@ -218,8 +218,8 @@ class MainCommands(commands.Cog):
                                   color=0x6a38ff)
             reply.set_thumbnail(url="https://assets.epicsevendb.com/{}/{}.png".format("item", name))
             reply.add_field(name="Description:", value=get_item["description"], inline=False)
-            reply.add_field(name="Locations:", value=droplocations, inline=False)
-            reply.add_field(name="AP Shops:", value=shopItems, inline=False)
+            reply.add_field(name="Locations:", value=droplocations)
+            reply.add_field(name="AP Shops:", value=shopItems)
             reply.set_footer(text=self.bot.user.name, icon_url=self.bot.user.avatar_url)
 
             await ctx.message.channel.send(embed=reply)
