@@ -55,7 +55,7 @@ class MainCommands(commands.Cog):
             return
         value = value.split(",")
         answer = value[randint(0, len(value) - 1)]
-        await ctx.message.channel.send("I pick **{}**! o(>< )o".format(answer))
+        await ctx.message.channel.send("I pick **{}**! (•͈⌔•͈⑅)".format(answer))
 
     @commands.command(pass_context=True)
     async def poll(self, ctx, *, value=""):
