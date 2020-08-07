@@ -11,7 +11,7 @@ TOKEN = os.getenv('TOKEN')
 cogs = ["cogs.APIcmds", "cogs.generalcmds", "cogs.responses", "cogs.gethelp"] #, "cogs.SSGoldMatch"
 game = discord.Game(name="buckets | {}help".format(command_prefix))
 
-
+# class
 class NezukoBot:
     def __int__(self, bot):
         self.bot = bot
