@@ -1,2 +1,2 @@
 # discord bot
-sup
+my old discord bot i've created using python
