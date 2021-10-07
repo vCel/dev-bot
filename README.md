@@ -1,2 +1,2 @@
-# Nezuko-chan
+# discord bot
 sup
