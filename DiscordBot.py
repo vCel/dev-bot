@@ -12,7 +12,7 @@ cogs = ["cogs.APIcmds", "cogs.generalcmds", "cogs.responses", "cogs.gethelp"] #,
 game = discord.Game(name="buckets | {}help".format(command_prefix))
 
 # class
-class NezukoBot:
+class DiscordBot:
     def __int__(self, bot):
         self.bot = bot
 
